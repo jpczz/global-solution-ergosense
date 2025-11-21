@@ -1,107 +1,316 @@
 # ErgoSense – Monitor Inteligente de Ergonomia e Bem-Estar
 
-## 1. Visão Geral
+## 📌 1. Visão Geral
 
-O **ErgoSense** é um sistema IoT desenvolvido com ESP32 que monitora ergonomia e bem-estar de profissionais em ambientes de trabalho híbridos ou home office. Utilizando sensores de distância, temperatura/umidade e luminosidade, o dispositivo identifica postura inadequada, condições ambientais desconfortáveis e excesso de tempo contínuo de trabalho.
+O **ErgoSense** é um sistema IoT desenvolvido com ESP32 que monitora ergonomia e bem-estar em ambientes de trabalho híbridos ou home office.  
+Ele utiliza sensores para acompanhar:
 
-A solução emite alertas locais (LED, buzzer, mensagens em display) e envia os dados para a nuvem via MQTT, permitindo monitoramento remoto e integração com dashboards. O projeto demonstra como a Internet das Coisas e o Physical Computing podem contribuir para um futuro do trabalho mais saudável, produtivo e sustentável.
+- **Postura** (distância da pessoa até a mesa)  
+- **Iluminação do ambiente**  
+- **Temperatura e umidade**  
+- **Tempo contínuo de trabalho**
 
----
+Quando detecta algo fora do ideal, o sistema:
 
-## 2. Contexto – Futuro do Trabalho
+- acende um **LED**  
+- emite alerta no **buzzer**  
+- mostra a mensagem no **display OLED**  
+- envia um **JSON via MQTT** para a nuvem  
 
-No futuro do trabalho, especialmente com o crescimento do home office e dos modelos híbridos, milhões de profissionais passam horas sentados em frente ao computador, muitas vezes em ambientes improvisados e sem qualquer suporte ergonômico. Esse cenário aumenta o risco de dores nas costas, LER (Lesões por Esforços Repetitivos), fadiga visual, estresse e queda de produtividade.
-
-Relatórios de saúde ocupacional mostram que problemas ergonômicos estão entre as principais causas de afastamento do trabalho e perda de desempenho. Ao mesmo tempo, empresas estão buscando soluções tecnológicas para cuidar melhor do bem-estar dos colaboradores, sem depender apenas de intervenções humanas pontuais.
-
----
-
-## 3. Problema
-
-**Problema identificado:**  
-Profissionais em home office ou escritórios híbridos passam longos períodos em posições inadequadas, em ambientes pouco confortáveis (temperatura, iluminação) e sem gestão inteligente de pausas. Isso gera:
-
-- queda de produtividade;
-- aumento de dores musculoesqueléticas;
-- maior risco de afastamentos;
-- impacto direto na qualidade de vida e no bem-estar no trabalho.
-
-Hoje, a maioria das empresas não possui ferramentas simples e acessíveis para monitorar, em tempo real, postura, condições do ambiente e tempo contínuo de trabalho dos colaboradores.
+O projeto demonstra como *Physical Computing*, IoT e IoB podem melhorar saúde, produtividade e qualidade de vida no **futuro do trabalho**.
 
 ---
 
-## 4. Objetivo da Solução
+## 📌 2. Contexto – Futuro do Trabalho
 
-Desenvolver um sistema IoT, baseado em ESP32, capaz de:
+Com o aumento do trabalho remoto e híbrido, profissionais passam longas horas em posições inadequadas e em ambientes mal preparados (pouca luz, alta temperatura, ausência de pausas).  
+Esse cenário afeta:
 
-- monitorar postura (distância do corpo em relação à mesa);
-- monitorar temperatura e umidade do ambiente;
-- monitorar nível de iluminação do local de trabalho;
-- sugerir pausas inteligentes após longos períodos contínuos de atividade;
-- enviar esses dados para a nuvem via MQTT, permitindo visualização em dashboards ou integração com outros sistemas empresariais.
+- saúde física  
+- saúde mental  
+- produtividade  
+- qualidade de vida  
+- taxas de afastamento  
 
-O foco é **promover saúde, bem-estar e produtividade** no futuro do trabalho, usando tecnologias acessíveis e escaláveis.
+O futuro do trabalho exige ambientes **inteligentes**, capazes de agir proativamente para melhorar o bem-estar humano.
 
 ---
 
-## 5. Persona e Cenário de Uso
+## 📌 3. Problema
+
+Hoje, a maioria das pessoas trabalha:
+
+- sem monitoramento de postura  
+- sem controle de ambiente (temperatura, umidade, iluminação)  
+- sem lembretes de pausas  
+- sem feedback em tempo real  
+
+Isso gera:
+
+- dores musculares  
+- fadiga visual  
+- queda de produtividade  
+- risco de LER/DORT  
+- estresse e cansaço  
+
+As empresas não têm ferramentas simples e acessíveis que monitorem ergonomia **em tempo real**.
+
+---
+
+## 📌 4. Objetivo da Solução
+
+Criar um sistema IoT capaz de:
+
+- detectar postura inadequada  
+- monitorar conforto térmico e luminosidade  
+- emitir alertas imediatos  
+- sugerir pausas inteligentes  
+- enviar dados para a nuvem via MQTT  
+- permitir monitoramento remoto via dashboards  
+
+O foco é promover **saúde, bem-estar e produtividade** dentro da temática *Futuro do Trabalho*.
+
+---
+
+## 📌 5. Persona e Cenário de Uso
 
 **Persona:**  
-Ana, 29 anos, analista de marketing digital, trabalha em modelo híbrido. Em casa, ela usa uma mesa pequena, cadeira simples e passa de 6 a 8 horas por dia no computador. Frequentemente sente dores nas costas e cansaço visual, mas dificilmente lembra de fazer pausas ou ajustar a postura.
+**Ana**, 29 anos, analista de marketing, trabalha em modelo híbrido. Passa horas no computador e sofre com dores nas costas e cansaço visual.
 
 **Cenário de uso:**  
-O dispositivo ErgoSense é colocado na mesa da Ana, apontado na direção da cadeira. Ele monitora:
+O ErgoSense fica na mesa da Ana monitorando:
 
-- a distância da Ana em relação à mesa (indicando se ela está muito curvada);
-- a temperatura e a umidade do ambiente (conforto térmico);
-- o nível de iluminação (condições ideais para trabalho);
-- o tempo que ela permanece em atividade sem pausas.
+- distância (postura)  
+- temperatura  
+- umidade  
+- luz ambiente  
+- tempo sentado  
 
-Quando algo sai dos parâmetros ideais (postura ruim, ambiente desconfortável, muito tempo sentada), o equipamento:
+Quando algo sai do ideal:
 
-- acende um LED e/ou dispara um buzzer com um alerta suave;
-- exibe mensagens no display (por exemplo: “Ajuste a postura”, “Faça uma pausa de 5 minutos”, “Ambiente quente, hidrate-se”);
-- envia os dados via MQTT para um broker na nuvem, permitindo que um dashboard monitore a saúde ergonômica da Ana ao longo do dia.
-
----
-
-## 6. Conexão com o Futuro do Trabalho
-
-O futuro do trabalho combina modelos flexíveis (home office, coworking, escritórios híbridos) com alta exigência de produtividade e constante conexão digital. Nesse contexto, tecnologias de **Physical Computing**, como IoT e IoB (Internet of Behaviors), permitem que o ambiente de trabalho deixe de ser passivo e passe a ser **inteligente e proativo**.
-
-O ErgoSense se encaixa diretamente nessa tendência, pois:
-
-- utiliza sensores físicos para interpretar o comportamento humano (postura, permanência prolongada, condições do ambiente);
-- aplica lógica embarcada para gerar feedback em tempo real (alertas locais e IoT);
-- usa comunicação MQTT para integrar o comportamento do colaborador a plataformas digitais de saúde ocupacional e gestão de pessoas.
-
-Assim, a solução demonstra, na prática, como o uso de IoT pode transformar saúde e bem-estar no trabalho, contribuindo para um futuro do trabalho mais humano, sustentável e inteligente.
+- LED acende  
+- buzzer toca  
+- display exibe alerta  
+- dados são enviados para a nuvem via MQTT  
 
 ---
 
-## 7. Arquitetura da Solução (Visão Geral)
+## 📌 6. Conexão com o Futuro do Trabalho
 
-*(Esta seção será detalhada nos próximos passos: componentes, sensores, atuadores, MQTT, fluxo de dados, etc.)*
+O ErgoSense está 100% alinhado às tendências:
 
----
+- ambientes inteligentes  
+- IoT e IoB aplicados ao comportamento humano  
+- saúde e ergonomia como parte da produtividade  
+- automação e monitoramento contínuo  
+- decisões baseadas em dados  
 
-## 8. Tecnologias Utilizadas
-
-- ESP32
-- Sensores (distância, temperatura/umidade, luminosidade)
-- Atuadores (LED, buzzer, display)
-- Protocolo MQTT
-- Wokwi (simulação)
-- Git / GitHub
+Ele demonstra, na prática, como Physical Computing transforma o ambiente de trabalho em um espaço mais **seguro, saudável e eficiente**.
 
 ---
 
-## 9. Como executar o projeto
+## 📌 7. Arquitetura da Solução
 
-*(Aqui você irá colocar: link do Wokwi, como rodar, bibliotecas usadas, etc. Vou te passar isso mais pra frente.)*
+### 🧩 7.1 Componentes Utilizados
+
+| Componente | Função |
+|-----------|--------|
+| ESP32 DevKit V1 | Microcontrolador principal |
+| HC-SR04 | Medição de postura pela distância |
+| DHT22 | Temperatura e umidade |
+| LDR (sensor de luz) | Iluminação ambiente |
+| LED | Alerta visual |
+| Buzzer | Alerta sonoro |
+| OLED SSD1306 | Exibição das mensagens |
 
 ---
 
-## 10. MQTT / HTTP
+### 🧩 7.2 Pinagem
 
-*(Aqui entraremos nos tópicos MQTT usados, payload em JSON, etc. Também vou te passar pronto em outro passo.)*
+| Componente | Pino | ESP32 |
+|-----------|------|--------|
+| HC-SR04 TRIG | → | D4 |
+| HC-SR04 ECHO | → | D5 |
+| HC-SR04 VCC | → | 3V3 |
+| HC-SR04 GND | → | GND |
+| DHT22 DATA | → | D15 |
+| OLED SDA | → | D21 |
+| OLED SCL | → | D22 |
+| LED | → | D2 (via resistor 220Ω) |
+| Buzzer | → | D18 |
+| LDR AO | → | D34 |
+| LDR VCC | → | 3V3 |
+| LDR GND | → | GND |
+
+---
+
+## 📌 8. Lógica de Funcionamento
+
+1. **Leitura contínua dos sensores**  
+   - distância  
+   - temperatura/umidade  
+   - luminosidade  
+   - tempo sentado  
+
+2. **Processamento**  
+   - distância baixa → postura ruim  
+   - luz baixa → alerta  
+   - temperatura alta → alerta  
+   - 45 min sentado → pausa necessária  
+
+3. **Ações do sistema**  
+   - LED acende  
+   - buzzer toca  
+   - display mostra a mensagem  
+   - JSON enviado via MQTT  
+
+4. **Exemplos de alertas:**  
+   - “Ajuste a postura!”  
+   - “Pouca luz!”  
+   - “Muito quente!”  
+   - “Hora da pausa!”
+
+---
+
+## 📌 9. Comunicação MQTT
+
+### 🔌 9.1 Configuração
+
+- **Broker:** `broker.hivemq.com`  
+- **Porta:** `1883`  
+- **ID do cliente:** `ErgoSenseDevice`  
+- **Tópico publicado:**  
+
+ergosense/dados
+
+---
+
+### 🔌 9.2 Payload JSON enviado pelo ESP32
+
+A cada 5 segundos, o dispositivo envia:
+
+```json
+{
+  "postura": "boa",
+  "distancia_cm": 400.0,
+  "temperatura_c": 24.0,
+  "umidade_pct": 40.0,
+  "luz_raw": 1001,
+  "tempo_sentado_min": 0,
+  "alerta": "Pouca luz!"
+}
+
+Campos:
+
+postura – “boa” ou “ruim”
+
+distancia_cm – distância medida
+
+temperatura_c – temperatura ambiente
+
+umidade_pct – umidade
+
+luz_raw – leitura do LDR
+
+tempo_sentado_min – tempo contínuo trabalhando
+
+alerta – mensagem exibida no display
+
+Esse JSON pode alimentar:
+
+dashboards (Grafana, Node-RED)
+
+bancos de dados
+
+aplicações empresariais
+
+📌 10. Tecnologias Utilizadas
+
+ESP32 DevKit V1
+
+C/C++ (Arduino)
+
+Wokwi (simulação)
+
+MQTT
+
+HiveMQ
+
+Sensores físicos (HC-SR04, DHT22, LDR)
+
+Atuadores (LED, buzzer, display OLED)
+
+Git / GitHub
+
+📌 11. Como Executar
+▶ 11.1 Pelo Wokwi
+
+Abrir o projeto:
+👉 <COLE AQUI o link do seu Wokwi público>
+
+Arquivos principais:
+
+sketch.ino
+
+diagram.json
+
+libraries.txt
+
+Clique em Run (play)
+
+Abra o Serial Monitor para ver:
+
+leituras
+
+alertas
+
+JSON MQTT sendo enviado
+
+Interaja com os sensores:
+
+clique no ultrassônico e altere a distância
+
+aumente temperatura no DHT22
+
+mexa na iluminação do LDR
+
+veja LED / buzzer / display reagindo
+
+📌 12. Estrutura do Repositório
+
+/
+├── sketch.ino
+├── diagram.json
+├── libraries.txt
+├── README.md
+└── /docs
+    ├── circuito.png
+    └── oled.png
+
+📌 13. Impacto e Relevância
+
+O ErgoSense mostra como IoT + IoB + Physical Computing podem criar ambientes de trabalho inteligentes.
+
+Benefícios:
+
+prevenção de dores e lesões
+
+aumento de produtividade
+
+bem-estar físico e mental
+
+redução de afastamentos
+
+tomada de decisão baseada em dados
+
+É uma solução acessível, escalável e totalmente alinhada ao Futuro do Trabalho.
+
+📌 14. Link da Simulação
+
+https://wokwi.com/projects/448264856204439553
+
+📌 15. Autor
+
+João Pedro Chizzolini de Freitas - RM553172
+FIAP – Global Solution – Physical Computing (IoT & IoB)
+
