@@ -189,7 +189,7 @@ ergosense/dados
 
 A cada 5 segundos, o dispositivo envia:
 
-```json
+json
 {
   "postura": "boa",
   "distancia_cm": 400.0,
